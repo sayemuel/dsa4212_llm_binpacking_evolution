@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-haiku-5-5_b300_s2",
+  "wall_seconds": 854.7749500274658,
+  "total_usd": 0.2044606,
+  "total_input_tokens": 441406,
+  "total_output_tokens": 320640,
+  "proposals_completed": 300,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 1.9839079420893249,
+  "selected": {
+    "pid": 298,
+    "train_excess": 1.9839079420893249,
+    "valid_excess": 2.2616954571995467,
+    "code": "import numpy as np\n\ndef _sig(x):\n    return 1.0 / (1.0 + np.exp(-np.clip(x, -50.0, 50.0)))\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with an exact-fit bonus, a smooth penalty on awkward\n    mid-sized leftovers, a penalty on leftovers smaller than the item,\n    a mild penalty on leftovers tiny relative to the item, and an\n    earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit\n    score = -leftover\n\n    # Exact / near-exact fit bonus\n    score = score + 0.25 * cap * np.exp(-np.clip(rel / 0.002, 0.0, 700.0))\n\n    # Awkward middle band penalty (~4%-22% of capacity)\n    band = _sig(80.0 * (rel - 0.04)) * (1.0 - _sig(80.0 * (rel - 0.22)))\n    score = score - 0.55 * cap * band\n\n    # Leftovers smaller than the item are hard to refill\n    small_gap = _sig(60.0 * (item_rel - rel - 0.02))\n    score = score - 0.13 * cap * small_gap\n\n    # Mild penalty on leftovers tiny relative to the item (not exact fits)\n    ratio = leftover / max(item, 1e-12)\n    ratio_pen = _sig(20.0 * (0.5 - ratio))\n    score = score - 0.02 * cap * ratio_pen * (rel > 1e-3)\n\n    # Earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 298,
+      "train_excess": 1.9839079420893249,
+      "valid_excess": 2.2616954571995467,
+      "code": "import numpy as np\n\ndef _sig(x):\n    return 1.0 / (1.0 + np.exp(-np.clip(x, -50.0, 50.0)))\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with an exact-fit bonus, a smooth penalty on awkward\n    mid-sized leftovers, a penalty on leftovers smaller than the item,\n    a mild penalty on leftovers tiny relative to the item, and an\n    earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit\n    score = -leftover\n\n    # Exact / near-exact fit bonus\n    score = score + 0.25 * cap * np.exp(-np.clip(rel / 0.002, 0.0, 700.0))\n\n    # Awkward middle band penalty (~4%-22% of capacity)\n    band = _sig(80.0 * (rel - 0.04)) * (1.0 - _sig(80.0 * (rel - 0.22)))\n    score = score - 0.55 * cap * band\n\n    # Leftovers smaller than the item are hard to refill\n    small_gap = _sig(60.0 * (item_rel - rel - 0.02))\n    score = score - 0.13 * cap * small_gap\n\n    # Mild penalty on leftovers tiny relative to the item (not exact fits)\n    ratio = leftover / max(item, 1e-12)\n    ratio_pen = _sig(20.0 * (0.5 - ratio))\n    score = score - 0.02 * cap * ratio_pen * (rel > 1e-3)\n\n    # Earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+    },
+    {
+      "pid": 184,
+      "train_excess": 2.1314491241132654,
+      "valid_excess": 2.2636338567484464,
+      "code": "import numpy as np\n\ndef _sig(x):\n    return 1.0 / (1.0 + np.exp(-np.clip(x, -50.0, 50.0)))\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharper near-exact-fit bonus, a smooth penalty on\n    awkward mid-sized leftovers, a penalty on leftovers smaller than the\n    item (hard to refill), a mild penalty on leftovers tiny relative to the\n    item, and an earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit (smaller leftover preferred)\n    score = -leftover\n\n    # Sharper bonus for exact / near-exact fits\n    score = score + 0.25 * cap * np.exp(-np.clip(rel / 0.002, 0.0, 700.0))\n\n    # Smooth penalty on the awkward middle band (~4%-22% of capacity)\n    band = _sig(80.0 * (rel - 0.04)) * (1.0 - _sig(80.0 * (rel - 0.22)))\n    score = score - 0.55 * cap * band\n\n    # Leftovers smaller than the current item are hard to refill\n    small_gap = _sig(60.0 * (item_rel - rel - 0.02))\n    score = score - 0.13 * cap * small_gap\n\n    # Leftover tiny relative to the item is wasteful (not for exact fits)\n    ratio = leftover / max(item, 1e-12)\n    ratio_pen = _sig(20.0 * (0.5 - ratio))\n    score = score - 0.04 * cap * ratio_pen * (rel > 1e-3)\n\n    # Earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+    },
+    {
+      "pid": 189,
+      "train_excess": 2.0838019372255725,
+      "valid_excess": 2.3128943383521623,
+      "code": "import numpy as np\n\ndef _sig(z):\n    return 1.0 / (1.0 + np.exp(-np.clip(z, -50.0, 50.0)))\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharp exact-fit bonus, penalties on mid-sized and\n    sliver leftovers, a mild penalty on gaps smaller than the item, and an\n    earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit\n    score = -leftover\n\n    # Awkward middle band penalty\n    band = _sig(80.0 * (rel - 0.04)) * (1.0 - _sig(80.0 * (rel - 0.22)))\n    score = score - 0.6 * cap * band\n\n    # Gaps smaller than the item are hard to refill\n    small_gap = _sig(60.0 * (item_rel - rel - 0.02))\n    score = score - 0.1 * cap * small_gap\n\n    # Sliver penalty just above exact fit\n    sliver = _sig(500.0 * (rel - 0.003)) * (1.0 - _sig(500.0 * (rel - 0.015)))\n    score = score - 0.07 * cap * sliver\n\n    # Sharp reward for exact / near-exact fits\n    score = score + 0.22 * cap * np.exp(-np.clip(rel / 0.0015, 0.0, 700.0))\n\n    # Earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+    },
+    {
+      "pid": 283,
+      "train_excess": 2.080816212720861,
+      "valid_excess": 2.5595712289242494,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharper near-exact-fit bonus, a smooth penalty on\n    mid-sized leftover gaps, a penalty on gaps smaller than the item\n    (hard to refill), and an earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit (smaller leftover preferred)\n    score = -leftover\n\n    # Smooth penalty on awkward middle band (~4%-22% of capacity)\n    steep = 90.0\n    rise = 1.0 / (1.0 + np.exp(-np.clip(steep * (rel - 0.04), -50, 50)))\n    fall = 1.0 / (1.0 + np.exp(-np.clip(steep * (rel - 0.22), -50, 50)))\n    score = score - 0.6 * cap * rise * (1.0 - fall)\n\n    # Gaps smaller than the current item are hard to refill\n    small_gap = 1.0 / (1.0 + np.exp(-np.clip(70.0 * (item_rel - rel - 0.01), -50, 50)))\n    score = score - 0.15 * cap * small_gap\n\n    # Sharper reward for exact / near-exact fits\n    score = score + 0.25 * cap * np.exp(-np.clip(rel / 0.002, 0.0, 700.0))\n\n    # Tiny earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+    },
+    {
+      "pid": 255,
+      "train_excess": 2.080816212720861,
+      "valid_excess": 2.6560381154933737,
+      "code": "import numpy as np\n\ndef _sig(z):\n    return 1.0 / (1.0 + np.exp(-np.clip(z, -50.0, 50.0)))\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with an exact-fit reward, a sliver penalty just above an exact\n    fit, a smooth penalty on mid-sized leftovers, a mild penalty on gaps smaller\n    than the item, and an earliest-bin tie-break.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present, so this is capacity\n    leftover = bins - item\n    rel = leftover / cap\n    item_rel = item / cap\n\n    # Base: best fit\n    score = -leftover\n\n    # Smooth penalty on awkward middle band (~4%-22% of capacity)\n    band = _sig(80.0 * (rel - 0.04)) * (1.0 - _sig(80.0 * (rel - 0.22)))\n    score = score - 0.6 * cap * band\n\n    # Sliver penalty just above exact fit (tiny leftovers rarely get reused)\n    sliver = _sig(500.0 * (rel - 0.003)) * (1.0 - _sig(500.0 * (rel - 0.012)))\n    score = score - 0.1 * cap * sliver\n\n    # Gaps smaller than the item are hard to refill\n    small_gap = _sig(60.0 * (item_rel - rel - 0.02))\n    score = score - 0.12 * cap * small_gap\n\n    # Sharp reward for exact / near-exact fits\n    score = score + 0.24 * cap * np.exp(-np.clip(rel / 0.002, 0.0, 700.0))\n\n    # Earliest-bin tie-break\n    idx = np.arange(bins.shape[0], dtype=float)\n    score = score - 1e-9 * cap * idx\n\n    return score\n"
+    }
+  ]
+}

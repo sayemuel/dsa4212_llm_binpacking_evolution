@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-haiku-5-5_b300_s0",
+  "wall_seconds": 839.5189752578735,
+  "total_usd": 0.18351779999999993,
+  "total_input_tokens": 353958,
+  "total_output_tokens": 296244,
+  "proposals_completed": 300,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 4.06247184594434,
+  "selected": {
+    "pid": 233,
+    "train_excess": 4.111732929688182,
+    "valid_excess": 3.590438951351851,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharper exact-fit reward, smooth penalties for\n    leftovers that cannot host another item of this size (slivers and\n    near-misses), a penalty for leaving roughly half a bin, a fill\n    tie-breaker, and a new-bin discouragement.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n    s = item / cap\n    w = max(0.05, min(0.15, s))\n    eps = 1e-9\n\n    def sig(z):\n        return 1.0 / (1.0 + np.exp(-np.clip(z, -60.0, 60.0)))\n\n    score = -x\n    score = score + 0.8 * np.exp(-x / 0.008)                        # sharper exact-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)         # sliver penalty\n    score = score - 0.06 * sig((s - x) / (0.1 * s + eps))           # leftover too small for same-size item\n    score = score - 0.03 * sig((0.5 * s - x) / (0.1 * s + eps))     # tiny leftover\n    score = score - 0.04 * sig((x - 0.5) / 0.02)                    # half-bin leftover\n    score = score + 0.02 * sig((x - s) / (0.1 * s + eps)) * sig((2.0 * s - x) / (0.1 * s + eps))\n    score = score + 0.01 * (1.0 - bins / cap)                       # fuller bins win ties\n    score = score - 0.06 * (bins >= cap - 1e-12)                    # discourage opening a new bin\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 233,
+      "train_excess": 4.111732929688182,
+      "valid_excess": 3.590438951351851,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharper exact-fit reward, smooth penalties for\n    leftovers that cannot host another item of this size (slivers and\n    near-misses), a penalty for leaving roughly half a bin, a fill\n    tie-breaker, and a new-bin discouragement.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n    s = item / cap\n    w = max(0.05, min(0.15, s))\n    eps = 1e-9\n\n    def sig(z):\n        return 1.0 / (1.0 + np.exp(-np.clip(z, -60.0, 60.0)))\n\n    score = -x\n    score = score + 0.8 * np.exp(-x / 0.008)                        # sharper exact-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)         # sliver penalty\n    score = score - 0.06 * sig((s - x) / (0.1 * s + eps))           # leftover too small for same-size item\n    score = score - 0.03 * sig((0.5 * s - x) / (0.1 * s + eps))     # tiny leftover\n    score = score - 0.04 * sig((x - 0.5) / 0.02)                    # half-bin leftover\n    score = score + 0.02 * sig((x - s) / (0.1 * s + eps)) * sig((2.0 * s - x) / (0.1 * s + eps))\n    score = score + 0.01 * (1.0 - bins / cap)                       # fuller bins win ties\n    score = score - 0.06 * (bins >= cap - 1e-12)                    # discourage opening a new bin\n    return score\n"
+    },
+    {
+      "pid": 284,
+      "train_excess": 4.111732929688182,
+      "valid_excess": 3.6398234605499886,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharp tight-fit reward, a sliver penalty, a soft penalty\n    for leftovers too small to host a same-size item, a fill tie-breaker, and\n    a stronger new-bin discouragement.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n    s = item / cap\n    w = max(0.05, min(0.15, s))\n    eps = 1e-9\n\n    def sig(z):\n        return 1.0 / (1.0 + np.exp(-np.clip(z, -60.0, 60.0)))\n\n    score = -x\n    score = score + 0.6 * np.exp(-x / 0.015)                         # sharp tight-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)          # sliver penalty\n    score = score - 0.06 * sig((s - x) / (0.1 * s + eps))            # cannot host same-size item\n    score = score - 0.03 * sig((0.5 * s - x) / (0.1 * s + eps))      # tiny leftovers\n    score = score + 0.02 * sig((x - s) / (0.1 * s + eps)) * sig((2.0 * s - x) / (0.1 * s + eps))\n    score = score + 0.01 * (1.0 - bins / cap)                        # fuller bins win ties\n    score = score - 0.08 * (bins >= cap - 1e-12)                     # discourage new bin\n    return score\n"
+    },
+    {
+      "pid": 225,
+      "train_excess": 4.06247184594434,
+      "valid_excess": 3.688723216051211,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with smooth tiered penalties: a tight-fit reward, a smooth\n    sliver penalty, smooth penalties for leftovers that cannot host another\n    item of this size, a fill tie-breaker, and a new-bin discouragement.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n    s = item / cap\n    w = max(0.05, min(0.15, s))\n\n    def sig(z):\n        return 1.0 / (1.0 + np.exp(-np.clip(z, -60.0, 60.0)))\n\n    score = -x\n    score = score + 0.6 * np.exp(-x / 0.015)                    # sharp tight-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)     # sliver penalty\n    score = score - 0.1 * sig((x - 0.5) / 0.02)                 # new-bin-like leftovers\n    score = score - 0.05 * sig((s - x) / (0.1 * s + 1e-9))      # too small for same-size item\n    score = score - 0.03 * sig((0.5 * s - x) / (0.1 * s + 1e-9))  # tiny leftovers\n    score = score + 0.02 * sig((x - s) / (0.1 * s + 1e-9)) * sig((2.0 * s - x) / (0.1 * s + 1e-9))\n    score = score + 0.01 * (1.0 - bins / cap)                   # fuller bins win ties\n    score = score - 0.05 * (bins >= cap - 1e-12)                # discourage opening a new bin\n    return score\n"
+    },
+    {
+      "pid": 269,
+      "train_excess": 4.063964708196696,
+      "valid_excess": 3.688843657348123,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharp tight-fit reward, a smooth sliver penalty,\n    a near-miss penalty for leftovers too small for an item of this size,\n    a fill tie-breaker, and a size-dependent new-bin discouragement.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n    s = item / cap\n    w = max(0.05, min(0.15, s))\n    eps = 1e-9\n\n    def sig(z):\n        return 1.0 / (1.0 + np.exp(-np.clip(z, -60.0, 60.0)))\n\n    score = -x\n    score = score + 0.6 * np.exp(-x / 0.015)                        # sharp tight-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)         # sliver penalty\n    score = score - 0.05 * sig((s - x) / (0.1 * s + eps))           # too small for same-size item\n    score = score - 0.03 * sig((0.5 * s - x) / (0.1 * s + eps))     # tiny leftovers\n    score = score + 0.01 * (1.0 - bins / cap)                       # fuller bins win ties\n    new_pen = 0.04 + 0.04 * (1.0 - min(1.0, s / 0.5))               # stronger for small items\n    score = score - new_pen * (bins >= cap - 1e-12)                 # discourage new bin\n    return score\n"
+    },
+    {
+      "pid": 242,
+      "train_excess": 4.065336535845259,
+      "valid_excess": 3.934305393725052,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a sharp tight-fit bonus, a smooth large-leftover penalty,\n    an item-scaled sliver penalty, and a fresh-bin penalty.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present\n    l = bins - item\n    x = l / cap\n\n    w = max(0.05, min(0.15, item / cap))\n    empty = bins >= cap - 1e-12\n\n    score = -x\n    score = score + 0.7 * np.exp(-x / 0.012)                    # tight-fit reward\n    score = score - 0.3 * np.exp(-((x - 0.5 * w) / w) ** 2)     # sliver penalty\n    score = score - 0.1 / (1.0 + np.exp(-(x - 0.5) / 0.02))     # smooth large-leftover penalty\n    score = score - 0.1 * empty                                 # fresh bin penalty\n    return score\n"
+    }
+  ]
+}

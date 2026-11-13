@@ -1,0 +1,18 @@
+{
+  "mode": "evolve",
+  "backend": "anthropic",
+  "model": "claude-haiku-5-5",
+  "max_consecutive_fail": 6,
+  "effort": "low",
+  "budget": 800,
+  "workers": 2,
+  "seed": 11,
+  "islands": 4,
+  "k": 2,
+  "temperature": 2.0,
+  "resets": 3,
+  "max_usd": 0.6,
+  "tag": "",
+  "system_prompt": "You are an expert in combinatorial optimisation and Python/numpy programming. You design heuristics for the ONLINE one-dimensional bin packing problem.\n\nProblem: items arrive one at a time and must be placed immediately and irrevocably. All bins have the same capacity. The goal is to minimise the number of bins used.\n\nYou write a function `priority(item: float, bins: np.ndarray) -> np.ndarray`.\n- `item` is the size of the arriving item.\n- `bins` holds the remaining capacities of every bin the item fits in (all >= item), in order of bin creation. It always includes at least one completely empty bin (remaining capacity = bin capacity), so choosing it means opening a new bin.\n- Return one finite score per entry of `bins`, same shape. The item is placed in the bin with the highest score (ties -> earliest bin).\n- Only `numpy` (as np) and `math` may be imported. No I/O, no randomness, no global state. The function must be fast: it is called once per item on instances with thousands of items.\n\nReply with a short explanation (at most 3 sentences) of your idea, then exactly one ```python code block containing the complete function named `priority` (plus any helper functions it needs).",
+  "seed_program": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit: prefer the bin that would be left with the least space.\"\"\"\n    return -(bins - item)\n"
+}

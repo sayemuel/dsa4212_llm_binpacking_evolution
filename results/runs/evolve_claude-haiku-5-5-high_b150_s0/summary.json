@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-haiku-5-5-high_b150_s0",
+  "wall_seconds": 946.9599640369415,
+  "total_usd": 0.19009829999999983,
+  "total_input_tokens": 152553,
+  "total_output_tokens": 349686,
+  "proposals_completed": 150,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 4.709119899838138,
+  "selected": {
+    "pid": 144,
+    "train_excess": 4.710612762090494,
+    "valid_excess": 4.229032375913201,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best Fit base with an exact-fit bonus, a soft dead-space penalty for\n    leftovers smaller than the item, a mild penalty for awkward mid-sized\n    leftovers, and empty bins as a last resort.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present -> capacity\n    if cap <= 0 or item <= 0:\n        return np.zeros_like(bins)\n\n    u = (bins - item) / cap      # normalised leftover after placing (>= 0)\n    s = item / cap               # normalised item size\n\n    score = -u                   # Best Fit ordering\n\n    exact = u <= 1e-9\n    score = score + 0.8 * exact  # exact fits dominate\n\n    # dead space: small positive leftover that cannot host a typical item\n    dead = (~exact) & (u < 0.5 * s)\n    score = score - 0.3 * s * dead\n\n    # mild penalty on mid-sized leftovers that are awkward to fill later\n    middle = (~exact) & (u > 0.05) & (u < 0.2)\n    score = score - 0.05 * middle\n\n    # untouched empty bins are a last resort\n    empty = bins >= cap - 1e-12\n    score = score - 0.5 * empty\n\n    # tiny tie-break toward fuller bins\n    score = score + 1e-6 * (1.0 - u)\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 144,
+      "train_excess": 4.710612762090494,
+      "valid_excess": 4.229032375913201,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best Fit base with an exact-fit bonus, a soft dead-space penalty for\n    leftovers smaller than the item, a mild penalty for awkward mid-sized\n    leftovers, and empty bins as a last resort.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present -> capacity\n    if cap <= 0 or item <= 0:\n        return np.zeros_like(bins)\n\n    u = (bins - item) / cap      # normalised leftover after placing (>= 0)\n    s = item / cap               # normalised item size\n\n    score = -u                   # Best Fit ordering\n\n    exact = u <= 1e-9\n    score = score + 0.8 * exact  # exact fits dominate\n\n    # dead space: small positive leftover that cannot host a typical item\n    dead = (~exact) & (u < 0.5 * s)\n    score = score - 0.3 * s * dead\n\n    # mild penalty on mid-sized leftovers that are awkward to fill later\n    middle = (~exact) & (u > 0.05) & (u < 0.2)\n    score = score - 0.05 * middle\n\n    # untouched empty bins are a last resort\n    empty = bins >= cap - 1e-12\n    score = score - 0.5 * empty\n\n    # tiny tie-break toward fuller bins\n    score = score + 1e-6 * (1.0 - u)\n    return score\n"
+    },
+    {
+      "pid": 68,
+      "train_excess": 4.709119899838138,
+      "valid_excess": 4.279142521402077,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a mild penalty on awkward mid-sized leftovers and an exact-fit bonus.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present, so this is the capacity\n    left = (bins - item) / cap  # normalised leftover after placing the item\n    # base: best fit (smaller leftover is better)\n    score = -left\n    # narrow, mild penalty on leftovers that are hard to fill later\n    middle = (left > 0.05) & (left < 0.2)\n    score = score - 0.05 * middle\n    # exact fits are ideal\n    score = score + 0.5 * (left < 1e-9)\n    return score\n"
+    },
+    {
+      "pid": 88,
+      "train_excess": 4.758259948978187,
+      "valid_excess": 4.279142521402077,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best Fit core with non-monotone shaping: exact-fit bonus, a dead-space\n    penalty for leftovers smaller than the item, a small bonus for leftovers\n    that can still host an item of the same size, and empty bins last.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present -> capacity\n    if cap <= 0 or item <= 0:\n        return np.zeros_like(bins)\n\n    u = (bins - item) / cap          # normalised leftover after placing (>= 0)\n    s = item / cap                   # normalised item size\n    score = -u                       # Best Fit ordering as the base\n\n    exact = u <= 1e-9\n    score = score + 1.0 * exact      # exact fits dominate\n\n    # dead space: positive leftover smaller than the item is hard to reuse\n    dead = (~exact) & (u < s)\n    score = score - 0.5 * s * dead\n\n    # leftover that can still host another item of this size is useful\n    roomy = (~exact) & (u >= s)\n    score = score + 0.1 * s * roomy\n\n    # untouched empty bins are a last resort\n    empty = bins >= cap - 1e-12\n    score = score - 0.5 * empty\n\n    # tiny tie-break toward fuller bins\n    score = score + 1e-6 * (1.0 - u)\n    return score\n"
+    },
+    {
+      "pid": 0,
+      "train_excess": 4.75838098358198,
+      "valid_excess": 4.377302178385264,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit: prefer the bin that would be left with the least space.\"\"\"\n    return -(bins - item)\n"
+    },
+    {
+      "pid": 149,
+      "train_excess": 4.808008775145256,
+      "valid_excess": 4.377302178385264,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best Fit base with an exact-fit bonus, a dead-space penalty for\n    leftovers smaller than the item, a small sum-of-squares style preference\n    for fuller bins (new level squared), and empty bins as a last resort.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # an empty bin is always present -> capacity\n    if cap <= 0 or item <= 0:\n        return np.zeros_like(bins)\n\n    u = (bins - item) / cap          # normalised leftover after placing (>= 0)\n    s = item / cap                   # normalised item size\n    new_level = 1.0 - u              # fill level of each bin after placing\n\n    # Best Fit ordering (smaller leftover is better)\n    score = -u\n\n    # exact (numerically exact) fits dominate\n    exact = u <= 1e-9\n    score = score + 0.8 * exact\n\n    # dead space: leftover below the item size is hard to reuse\n    dead = (~exact) & (u < s)\n    score = score - 0.3 * s * dead\n\n    # sum-of-squares flavour: among near-ties prefer fuller bins\n    score = score + 0.05 * new_level ** 2\n\n    # untouched empty bins are a last resort\n    empty = bins >= cap - 1e-12\n    score = score - 0.5 * empty\n\n    return score\n"
+    }
+  ]
+}

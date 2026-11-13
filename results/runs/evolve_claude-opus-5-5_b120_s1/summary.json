@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-opus-5-5_b120_s1",
+  "wall_seconds": 269.5766878128052,
+  "total_usd": 1.2080080000000002,
+  "total_input_tokens": 97037,
+  "total_output_tokens": 40993,
+  "proposals_completed": 120,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 4.75838098358198,
+  "selected": {
+    "pid": 120,
+    "train_excess": 4.8090138949743855,
+    "valid_excess": 4.327797227890214,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    frac = r / cap\n    # exact/near-exact fits are great\n    score = score + np.where(frac < 1e-9, 0.05 * cap, 0.0)\n    # tiny leftover slivers are mildly penalised\n    sliver = (frac > 1e-9) & (frac < 0.02)\n    score = score - np.where(sliver, 0.015 * cap, 0.0)\n    # avoid opening new bin unless necessary (keep empty bin last)\n    score = score - np.where(bins >= cap, 0.5 * cap, 0.0)\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 120,
+      "train_excess": 4.8090138949743855,
+      "valid_excess": 4.327797227890214,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    frac = r / cap\n    # exact/near-exact fits are great\n    score = score + np.where(frac < 1e-9, 0.05 * cap, 0.0)\n    # tiny leftover slivers are mildly penalised\n    sliver = (frac > 1e-9) & (frac < 0.02)\n    score = score - np.where(sliver, 0.015 * cap, 0.0)\n    # avoid opening new bin unless necessary (keep empty bin last)\n    score = score - np.where(bins >= cap, 0.5 * cap, 0.0)\n    return score\n"
+    },
+    {
+      "pid": 38,
+      "train_excess": 4.857148824285305,
+      "valid_excess": 4.328162129245214,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    frac = r / cap\n    score = -r\n    # near-perfect fits get a strong bonus\n    score = score + np.where(frac < 0.01, cap, 0.0)\n    # small awkward gaps get a mild penalty (relative to item size)\n    awkward = (frac >= 0.01) & (r < 0.5 * item) & (frac < 0.08)\n    score = score - np.where(awkward, 0.05 * cap, 0.0)\n    # never prefer opening a new bin over an existing one\n    score = np.where(bins >= cap, -2.0 * cap, score)\n    return score\n"
+    },
+    {
+      "pid": 118,
+      "train_excess": 4.759752811230543,
+      "valid_excess": 4.377061884746437,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    # mild penalty for awkward small gaps unlikely to be filled\n    awkward = (r > 0.01 * cap) & (r < 0.4 * item) & (bins < cap)\n    score = score - np.where(awkward, 0.15 * item, 0.0)\n    # perfect / near-perfect fits get a bonus\n    score = score + np.where(r <= 0.01 * cap, cap, 0.0)\n    return score\n"
+    },
+    {
+      "pid": 0,
+      "train_excess": 4.75838098358198,
+      "valid_excess": 4.377302178385264,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit: prefer the bin that would be left with the least space.\"\"\"\n    return -(bins - item)\n"
+    },
+    {
+      "pid": 87,
+      "train_excess": 4.80752103272203,
+      "valid_excess": 4.426201933886486,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    resid = (bins - item) / cap\n    score = -resid\n    # exact fits are best\n    score = score + np.where(resid < 1e-6, 0.2, 0.0)\n    # tiny unusable gaps get a mild penalty\n    awk = (resid >= 1e-6) & (resid < 0.04)\n    score = score - np.where(awk, 0.02, 0.0)\n    return score\n"
+    }
+  ]
+}

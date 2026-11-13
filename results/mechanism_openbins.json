@@ -1,0 +1,17 @@
+{
+ "best_fit": {
+  "final_bins": 2081,
+  "mean_open": 708.8572,
+  "max_open": 1393
+ },
+ "funsearch_or": {
+  "final_bins": 2018,
+  "mean_open": 44.3094,
+  "max_open": 67
+ },
+ "haiku_evolve_s2": {
+  "final_bins": 2040,
+  "mean_open": 644.5176,
+  "max_open": 1276
+ }
+}

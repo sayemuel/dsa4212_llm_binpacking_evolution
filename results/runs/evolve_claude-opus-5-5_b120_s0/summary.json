@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-opus-5-5_b120_s0",
+  "wall_seconds": 277.34449315071106,
+  "total_usd": 1.2296039999999997,
+  "total_input_tokens": 102676,
+  "total_output_tokens": 40945,
+  "proposals_completed": 120,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 4.75838098358198,
+  "selected": {
+    "pid": 24,
+    "train_excess": 4.8093806027938175,
+    "valid_excess": 4.327556934251388,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    # near-perfect fits are always best\n    score += np.where(r <= 0.002 * cap, cap, 0.0)\n    # penalize leaving awkward small gaps (smaller than typical items) in used bins\n    used = bins < cap\n    awkward = used & (r > 0.002 * cap) & (r < 0.5 * min(item, 0.2 * cap))\n    score -= np.where(awkward, 0.05 * cap, 0.0)\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 24,
+      "train_excess": 4.8093806027938175,
+      "valid_excess": 4.327556934251388,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    # near-perfect fits are always best\n    score += np.where(r <= 0.002 * cap, cap, 0.0)\n    # penalize leaving awkward small gaps (smaller than typical items) in used bins\n    used = bins < cap\n    awkward = used & (r > 0.002 * cap) & (r < 0.5 * min(item, 0.2 * cap))\n    score -= np.where(awkward, 0.05 * cap, 0.0)\n    return score\n"
+    },
+    {
+      "pid": 57,
+      "train_excess": 4.80752103272203,
+      "valid_excess": 4.3766969833914375,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    used = bins < cap\n    # strong bonus for near-perfect fits\n    score += np.where(r <= 0.01 * cap, 0.5 * cap, 0.0)\n    # slight penalty for leaving a tiny, hard-to-fill gap in a used bin\n    tiny = used & (r > 0.01 * cap) & (r < 0.04 * cap)\n    score -= np.where(tiny, 0.03 * cap, 0.0)\n    return score\n"
+    },
+    {
+      "pid": 103,
+      "train_excess": 4.8090138949743855,
+      "valid_excess": 4.376819217837104,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float) / cap\n    s = -r\n    # near-perfect fit bonus, stronger for tighter fits\n    s = s + np.where(r <= 0.015, 1.0 - 20 * r, 0.0)\n    # awkward small leftovers\n    it = item / cap\n    pen = 0.05 if it < 0.5 else 0.03\n    s = s - np.where((r > 0.015) & (r < 0.06), pen, 0.0)\n    s = s - np.where((r >= 0.06) & (r < 0.12), 0.012, 0.0)\n    # new bins last\n    s = np.where(bins >= cap, s - 3.0, s)\n    return s\n"
+    },
+    {
+      "pid": 0,
+      "train_excess": 4.75838098358198,
+      "valid_excess": 4.377302178385264,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit: prefer the bin that would be left with the least space.\"\"\"\n    return -(bins - item)\n"
+    },
+    {
+      "pid": 99,
+      "train_excess": 4.808008775145256,
+      "valid_excess": 4.475706884381536,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = bins.max()\n    r = (bins - item).astype(float)\n    score = -r\n    # near-perfect fit bonus\n    score = np.where(r <= 0.008 * cap, score + cap, score)\n    # awkward leftovers: too small to be useful\n    awk = (r > 0.008 * cap) & (r < 0.05 * cap)\n    score = np.where(awk, score - 0.05 * cap, score)\n    awk2 = (r >= 0.05 * cap) & (r < 0.1 * cap)\n    score = np.where(awk2, score - 0.015 * cap, score)\n    # prefer fuller bins slightly (tie-breaking toward consolidation)\n    score = score - 0.001 * (bins / cap)\n    # new bins last\n    score = np.where(bins >= cap, score - 3 * cap, score)\n    return score\n"
+    }
+  ]
+}

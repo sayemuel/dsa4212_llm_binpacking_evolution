@@ -1,0 +1,41 @@
+[   1/60] valid=True exc=3.423438772898791 best=3.423% tok=596/1375 $0.030 14.6s 
+[   2/60] valid=True exc=4.957409527240985 best=3.423% tok=1192/4297 $0.091 33.1s 
+[   3/60] valid=True exc=2.275762512424908 best=2.276% tok=2093/6669 $0.142 24.9s 
+[   4/60] valid=True exc=3.423438772898791 best=2.276% tok=2689/8089 $0.173 14.9s 
+[   5/60] valid=True exc=4.8090138949743855 best=2.276% tok=3285/11149 $0.236 32.7s 
+[   6/60] valid=True exc=3.423438772898791 best=2.276% tok=3881/12708 $0.270 16.7s 
+[   7/60] valid=True exc=4.80752103272203 best=2.276% tok=4792/15692 $0.333 33.7s 
+[   8/60] valid=True exc=2.2818253610554478 best=2.276% tok=6060/18856 $0.401 33.6s 
+[   9/60] valid=True exc=2.2818253610554478 best=2.276% tok=7314/20061 $0.430 12.7s 
+[  10/60] valid=True exc=5.05532291770165 best=2.276% tok=8161/22767 $0.488 29.7s 
+[  11/60] valid=True exc=2.2787186019469425 best=2.276% tok=9228/24140 $0.520 14.4s 
+[  12/60] valid=True exc=2.275762512424908 best=2.276% tok=10614/25127 $0.545 10.1s 
+[  13/60] valid=True exc=3.423438772898791 best=2.276% tok=11210/26324 $0.571 13.1s 
+[  14/60] valid=True exc=5.007554696210164 best=2.276% tok=12346/28940 $0.628 27.9s 
+[  15/60] valid=True exc=2.3298688907452516 best=2.276% tok=13717/30676 $0.668 18.3s 
+[  16/60] valid=True exc=4.75838098358198 best=2.276% tok=14594/32766 $0.714 23.9s 
+[  17/60] valid=True exc=2.2787186019469425 best=2.276% tok=15853/34190 $0.747 15.1s 
+[  18/60] valid=True exc=2.2787186019469425 best=2.276% tok=16797/35393 $0.775 13.0s 
+[  19/60] valid=True exc=2.2787186019469425 best=2.276% tok=18170/37411 $0.821 21.0s 
+[  20/60] valid=True exc=4.75838098358198 best=2.276% tok=19114/39885 $0.874 28.8s 
+[  21/60] valid=True exc=2.275762512424908 best=2.276% tok=20796/41079 $0.905 12.2s 
+[  22/60] valid=True exc=2.3263657888346363 best=2.276% tok=22226/42032 $0.930 9.8s 
+[  23/60] valid=True exc=2.2787186019469425 best=2.276% tok=23595/44906 $0.993 28.3s 
+!! spend cap $1.0 reached
+[  24/60] valid=True exc=2.2787186019469425 best=2.276% tok=25012/45989 $1.020 9.9s 
+[  25/60] valid=True exc=2.275762512424908 best=2.276% tok=26549/47564 $1.057 16.9s 
+{
+  "run_id": "evolve_claude-opus-5-5-high_b60_s0",
+  "wall_seconds": 267.10256481170654,
+  "total_usd": 1.0574759999999999,
+  "total_input_tokens": 26549,
+  "total_output_tokens": 47564,
+  "proposals_completed": 25,
+  "stopped_early": "spend cap $1.0 reached",
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 2.275762512424908,
+  "selected": {
+    "pid": 23,
+    "train_excess": 2.3263657888346363,
+    "valid_excess": 1.7209062990149007,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins, dtype=float)\n    scale = 100.0 / cap\n    b = bins.astype(float) * scale\n    it = max(float(item) * scale, 1e-6)\n\n    # FunSearch-style base score\n    score = (b - b.max()) ** 2 / it\n    score += b ** 2 / it ** 2\n    score += b ** 2 / it ** 3\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    score[1:] -= score[:-1].copy()\n    score = np.nan_to_num(score, nan=-1e15, posinf=1e15, neginf=-1e15)\n    score = np.clip(score, -1e15, 1e15)\n\n    # Near-perfect fits take precedence (tightest first, earlier bin on ties)\n    r = b - it\n    thr = min(2.0, max(1.2, 0.04 * it))\n    near = (r <= thr) & (b < 100.0 - 1e-9)\n    if np.any(near):\n        n = b.shape[0]\n        out = np.full(b.shape, -1e17, dtype=float)\n        idx = np.arange(n, dtype=float)\n        out[near] = 1e17 - r[near] * 1e6 - idx[near] * 1e-3\n        return out\n    r

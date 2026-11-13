@@ -1,0 +1,49 @@
+{
+  "run_id": "sample_claude-haiku-5-5_b300_s0",
+  "wall_seconds": 1135.3257958889008,
+  "total_usd": 0.2011950000000001,
+  "total_input_tokens": 153600,
+  "total_output_tokens": 371670,
+  "proposals_completed": 300,
+  "stopped_early": null,
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 2.823979798452138,
+  "selected": {
+    "pid": 248,
+    "train_excess": 2.823979798452138,
+    "valid_excess": 2.8034570850035267,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a penalty on awkward (medium-sized) leftover gaps.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    C = float(np.max(bins))              # an empty bin is always present\n    leftover = bins - item               # space left after placing item\n    score = -leftover                    # best-fit core: tighter is better\n    # Medium leftovers are hard to reuse; very small ones are near-perfect fits.\n    awkward = (leftover >= 0.05 * C) & (leftover <= 0.25 * C)\n    score = score - 0.5 * C * awkward\n    # Mild bonus for nearly perfect fits (almost no waste).\n    score = score + 0.1 * C * (leftover < 0.01 * C)\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 248,
+      "train_excess": 2.823979798452138,
+      "valid_excess": 2.8034570850035267,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a penalty on awkward (medium-sized) leftover gaps.\"\"\"\n    bins = np.asarray(bins, dtype=float)\n    C = float(np.max(bins))              # an empty bin is always present\n    leftover = bins - item               # space left after placing item\n    score = -leftover                    # best-fit core: tighter is better\n    # Medium leftovers are hard to reuse; very small ones are near-perfect fits.\n    awkward = (leftover >= 0.05 * C) & (leftover <= 0.25 * C)\n    score = score - 0.5 * C * awkward\n    # Mild bonus for nearly perfect fits (almost no waste).\n    score = score + 0.1 * C * (leftover < 0.01 * C)\n    return score\n"
+    },
+    {
+      "pid": 236,
+      "train_excess": 2.82571472991208,
+      "valid_excess": 2.999174166201576,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a penalty on awkward mid-sized leftover gaps.\n\n    Bin capacity C is inferred as the largest remaining capacity (an empty bin is always present).\n    Gaps that are essentially zero get a large bonus; gaps in the band (0.05C, 0.25C) are penalised\n    because they are rarely useful later; all other gaps are ranked by best fit.\n    \"\"\"\n    bins = np.asarray(bins, dtype=float)\n    C = float(np.max(bins))\n    gap = bins - item  # leftover space if the item goes into each bin\n\n    score = -gap\n    eps = 1e-9 * max(C, 1.0)\n\n    # Near-perfect fits are best.\n    perfect = gap <= eps\n    score = np.where(perfect, score + 2.0 * C, score)\n\n    # Mid-sized leftover gaps are penalised.\n    awkward = (gap > 0.05 * C) & (gap < 0.25 * C)\n    score = np.where(awkward, score - 0.5 * C, score)\n\n    return score\n"
+    },
+    {
+      "pid": 199,
+      "train_excess": 2.9724050657014147,
+      "valid_excess": 3.050974656050509,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a penalty for leftover gaps in the awkward mid-range.\n\n    Gaps that are essentially zero (near-perfect fit) or large enough to hold\n    further items are kept attractive; gaps in between are penalised because\n    they are hard to fill later.\n    \"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))  # the empty bin always present -> capacity\n    if cap <= 0:\n        return np.zeros_like(bins)\n    resid = bins - item          # leftover space if item is placed here\n    norm = resid / cap           # normalised leftover in [0, 1]\n    awkward = (norm > 0.02) & (norm < 0.25)\n    score = -norm - 0.5 * awkward.astype(float)\n    return score\n"
+    },
+    {
+      "pid": 226,
+      "train_excess": 3.468100235281773,
+      "valid_excess": 3.197189792929268,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with fragmentation control.\n    - Prefer tight fits (small leftover).\n    - Bonus for near-perfect fits (leftover < 5% of capacity).\n    - Penalty for awkward small gaps (5%-20% of capacity) that are hard to reuse.\n    \"\"\"\n    C = np.max(bins)  # bin capacity (an empty bin is always present)\n    left = bins - item\n    frac = left / C\n    score = -frac\n    score = score + 1.0 * (frac < 0.05)\n    score = score - 0.5 * ((frac >= 0.05) & (frac < 0.20))\n    return score\n"
+    },
+    {
+      "pid": 72,
+      "train_excess": 3.7624527876988423,
+      "valid_excess": 3.591412009926183,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    \"\"\"Best fit with a penalty on 'awkward' leftover gaps.\n\n    Capacity C is the largest remaining capacity (an empty bin is always present).\n    Leftover gaps that are neither nearly zero nor large are likely unusable for\n    future items, so placements creating them are discouraged.\n    \"\"\"\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins)\n    leftover = (bins - item) / cap          # relative leftover space, in [0, 1]\n    # Base score: tighter fit is better.\n    score = -leftover\n    # Penalise gaps in the \"awkward\" band (unlikely to host later items).\n    awkward = (leftover > 0.02) & (leftover < 0.2)\n    score = score - 0.5 * awkward\n    # Mild bonus for bins that end up almost exactly full.\n    score = score + 0.25 * (leftover < 0.005)\n    return score\n"
+    }
+  ]
+}

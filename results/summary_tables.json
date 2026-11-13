@@ -1,0 +1,872 @@
+{
+ "runs": [
+  {
+   "run": "evolve_claude-haiku-5-5-high_b150_s0",
+   "config": "Haiku-high evolve",
+   "budget": 150,
+   "seed": 0,
+   "proposals": 150,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.03333333333333333,
+   "unique_behaviours": 36,
+   "best_train_excess": 4.709119899838138,
+   "selected_valid_excess": 4.229032375913201,
+   "usd": 0.19009829999999983,
+   "input_tokens": 152553,
+   "output_tokens": 349686,
+   "wall_min": 15.782666067282358,
+   "usd_per_proposal": 0.001267321999999999,
+   "mean_output_tokens": 2331.24,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b300_s0",
+   "config": "Haiku-low evolve",
+   "budget": 300,
+   "seed": 0,
+   "proposals": 300,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.49666666666666665,
+   "unique_behaviours": 131,
+   "best_train_excess": 4.06247184594434,
+   "selected_valid_excess": 3.590438951351851,
+   "usd": 0.18351779999999993,
+   "input_tokens": 353958,
+   "output_tokens": 296244,
+   "wall_min": 13.991982920964558,
+   "usd_per_proposal": 0.0006117259999999997,
+   "mean_output_tokens": 987.48,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b300_s1",
+   "config": "Haiku-low evolve",
+   "budget": 300,
+   "seed": 1,
+   "proposals": 300,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.8166666666666667,
+   "unique_behaviours": 169,
+   "best_train_excess": 3.366955447100756,
+   "selected_valid_excess": 2.951364948346093,
+   "usd": 0.1911073999999999,
+   "input_tokens": 434504,
+   "output_tokens": 295314,
+   "wall_min": 12.79475056330363,
+   "usd_per_proposal": 0.0006370246666666663,
+   "mean_output_tokens": 984.38,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b300_s2",
+   "config": "Haiku-low evolve",
+   "budget": 300,
+   "seed": 2,
+   "proposals": 300,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.73,
+   "unique_behaviours": 197,
+   "best_train_excess": 1.9839079420893249,
+   "selected_valid_excess": 2.2616954571995467,
+   "usd": 0.2044606,
+   "input_tokens": 441406,
+   "output_tokens": 320640,
+   "wall_min": 14.24624916712443,
+   "usd_per_proposal": 0.0006815353333333333,
+   "mean_output_tokens": 1068.8,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b800_s10",
+   "config": "Haiku-low evolve",
+   "budget": 800,
+   "seed": 10,
+   "proposals": 800,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.245,
+   "unique_behaviours": 228,
+   "best_train_excess": 3.763791376356674,
+   "selected_valid_excess": 3.689689145980777,
+   "usd": 0.4950720999999998,
+   "input_tokens": 888216,
+   "output_tokens": 812501,
+   "wall_min": 38.34446981350581,
+   "usd_per_proposal": 0.0006188401249999998,
+   "mean_output_tokens": 1015.62625,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b800_s11",
+   "config": "Haiku-low evolve",
+   "budget": 800,
+   "seed": 11,
+   "proposals": 800,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.3725,
+   "unique_behaviours": 353,
+   "best_train_excess": 2.5808985694371707,
+   "selected_valid_excess": 2.557267919187104,
+   "usd": 0.5239714000000001,
+   "input_tokens": 997199,
+   "output_tokens": 848503,
+   "wall_min": 39.06594296296438,
+   "usd_per_proposal": 0.0006549642500000002,
+   "mean_output_tokens": 1060.62875,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-haiku-5-5_b800_s12",
+   "config": "Haiku-low evolve",
+   "budget": 800,
+   "seed": 12,
+   "proposals": 800,
+   "invalid_rate": 0.00125,
+   "beats_seed_rate": 0.6470588235294118,
+   "unique_behaviours": 496,
+   "best_train_excess": 2.081182920540294,
+   "selected_valid_excess": 2.2138868194658157,
+   "usd": 0.5542214000000005,
+   "input_tokens": 1244714,
+   "output_tokens": 859500,
+   "wall_min": 37.11136218309402,
+   "usd_per_proposal": 0.0006927767500000007,
+   "mean_output_tokens": 1074.375,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-opus-5-5-high_b60_s0",
+   "config": "Opus-high evolve",
+   "budget": 60,
+   "seed": 0,
+   "proposals": 25,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.72,
+   "unique_behaviours": 12,
+   "best_train_excess": 2.275762512424908,
+   "selected_valid_excess": 1.7209062990149007,
+   "usd": 1.0574759999999999,
+   "input_tokens": 26549,
+   "output_tokens": 47564,
+   "wall_min": 4.451709413528443,
+   "usd_per_proposal": 0.042299039999999996,
+   "mean_output_tokens": 1902.56,
+   "stopped_early": "spend cap $1.0 reached"
+  },
+  {
+   "run": "evolve_claude-opus-5-5_b120_s0",
+   "config": "Opus-low evolve",
+   "budget": 120,
+   "seed": 0,
+   "proposals": 120,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.0,
+   "unique_behaviours": 13,
+   "best_train_excess": 4.75838098358198,
+   "selected_valid_excess": 4.327556934251388,
+   "usd": 1.2296039999999997,
+   "input_tokens": 102676,
+   "output_tokens": 40945,
+   "wall_min": 4.622408219178518,
+   "usd_per_proposal": 0.010246699999999997,
+   "mean_output_tokens": 341.2083333333333,
+   "stopped_early": null
+  },
+  {
+   "run": "evolve_claude-opus-5-5_b120_s1",
+   "config": "Opus-low evolve",
+   "budget": 120,
+   "seed": 1,
+   "proposals": 120,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.0,
+   "unique_behaviours": 19,
+   "best_train_excess": 4.75838098358198,
+   "selected_valid_excess": 4.327797227890214,
+   "usd": 1.2080080000000002,
+   "input_tokens": 97037,
+   "output_tokens": 40993,
+   "wall_min": 4.492944796880086,
+   "usd_per_proposal": 0.010066733333333334,
+   "mean_output_tokens": 341.60833333333335,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b300_s0",
+   "config": "Haiku-low sample",
+   "budget": 300,
+   "seed": 0,
+   "proposals": 300,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.12,
+   "unique_behaviours": 87,
+   "best_train_excess": 2.823979798452138,
+   "selected_valid_excess": 2.8034570850035267,
+   "usd": 0.2011950000000001,
+   "input_tokens": 153600,
+   "output_tokens": 371670,
+   "wall_min": 18.922096598148347,
+   "usd_per_proposal": 0.0006706500000000003,
+   "mean_output_tokens": 1238.9,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b300_s1",
+   "config": "Haiku-low sample",
+   "budget": 300,
+   "seed": 1,
+   "proposals": 300,
+   "invalid_rate": 0.0033333333333333335,
+   "beats_seed_rate": 0.12040133779264214,
+   "unique_behaviours": 94,
+   "best_train_excess": 2.823004313605685,
+   "selected_valid_excess": 2.951610006192424,
+   "usd": 0.19395500000000002,
+   "input_tokens": 153600,
+   "output_tokens": 357190,
+   "wall_min": 18.597030448913575,
+   "usd_per_proposal": 0.0006465166666666667,
+   "mean_output_tokens": 1190.6333333333334,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b300_s2",
+   "config": "Haiku-low sample",
+   "budget": 300,
+   "seed": 2,
+   "proposals": 300,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.06333333333333334,
+   "unique_behaviours": 88,
+   "best_train_excess": 2.9724050657014147,
+   "selected_valid_excess": 3.050974656050509,
+   "usd": 0.19681500000000016,
+   "input_tokens": 153600,
+   "output_tokens": 362910,
+   "wall_min": 18.51339526573817,
+   "usd_per_proposal": 0.0006560500000000005,
+   "mean_output_tokens": 1209.7,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b800_s10",
+   "config": "Haiku-low sample",
+   "budget": 800,
+   "seed": 10,
+   "proposals": 800,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.09,
+   "unique_behaviours": 181,
+   "best_train_excess": 2.6264441170454886,
+   "selected_valid_excess": 2.656275446906696,
+   "usd": 0.5178585000000003,
+   "input_tokens": 409600,
+   "output_tokens": 953797,
+   "wall_min": 49.15723493893941,
+   "usd_per_proposal": 0.0006473231250000004,
+   "mean_output_tokens": 1192.24625,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b800_s11",
+   "config": "Haiku-low sample",
+   "budget": 800,
+   "seed": 11,
+   "proposals": 800,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.0975,
+   "unique_behaviours": 185,
+   "best_train_excess": 2.6776858054649133,
+   "selected_valid_excess": 2.7538304890178074,
+   "usd": 0.5150374999999997,
+   "input_tokens": 409600,
+   "output_tokens": 948155,
+   "wall_min": 48.412702866395314,
+   "usd_per_proposal": 0.0006437968749999996,
+   "mean_output_tokens": 1185.19375,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-haiku-5-5_b800_s12",
+   "config": "Haiku-low sample",
+   "budget": 800,
+   "seed": 12,
+   "proposals": 800,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.11375,
+   "unique_behaviours": 191,
+   "best_train_excess": 2.82571472991208,
+   "selected_valid_excess": 2.950394851997266,
+   "usd": 0.5233605,
+   "input_tokens": 409600,
+   "output_tokens": 964801,
+   "wall_min": 49.32246293226878,
+   "usd_per_proposal": 0.000654200625,
+   "mean_output_tokens": 1206.00125,
+   "stopped_early": null
+  },
+  {
+   "run": "sample_claude-opus-5-5_b120_s0",
+   "config": "Opus-low sample",
+   "budget": 120,
+   "seed": 0,
+   "proposals": 120,
+   "invalid_rate": 0.0,
+   "beats_seed_rate": 0.0,
+   "unique_behaviours": 35,
+   "best_train_excess": 4.75838098358198,
+   "selected_valid_excess": 4.229637570907028,
+   "usd": 1.1112799999999992,
+   "input_tokens": 61440,
+   "output_tokens": 43276,
+   "wall_min": 4.828216699759166,
+   "usd_per_proposal": 0.00926066666666666,
+   "mean_output_tokens": 360.6333333333333,
+   "stopped_early": null
+  }
+ ],
+ "groups": {
+  "Haiku-high evolve | b150": {
+   "n_runs": 1,
+   "best_train_excess": [
+    4.709119899838138,
+    0.0
+   ],
+   "selected_valid_excess": [
+    4.229032375913201,
+    0.0
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.03333333333333333,
+    0.0
+   ],
+   "unique_behaviours": [
+    36.0,
+    0.0
+   ],
+   "usd": [
+    0.19009829999999983,
+    0.0
+   ],
+   "usd_per_proposal": [
+    0.001267321999999999,
+    0.0
+   ],
+   "mean_output_tokens": [
+    2331.24,
+    0.0
+   ],
+   "proposals": [
+    150.0,
+    0.0
+   ]
+  },
+  "Haiku-low evolve | b300": {
+   "n_runs": 3,
+   "best_train_excess": [
+    3.1377784117114733,
+    1.0580635901327553
+   ],
+   "selected_valid_excess": [
+    2.934499785632497,
+    0.6645322743088071
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.681111111111111,
+    0.16550707716769272
+   ],
+   "unique_behaviours": [
+    165.66666666666666,
+    33.126021996812916
+   ],
+   "usd": [
+    0.19302859999999997,
+    0.010602757897830205
+   ],
+   "usd_per_proposal": [
+    0.0006434286666666665,
+    3.53425263261007e-05
+   ],
+   "mean_output_tokens": [
+    1013.5533333333333,
+    47.870117331518315
+   ],
+   "proposals": [
+    300.0,
+    0.0
+   ]
+  },
+  "Haiku-low evolve | b800": {
+   "n_runs": 3,
+   "best_train_excess": [
+    2.8086242887780464,
+    0.8641105579341022
+   ],
+   "selected_valid_excess": [
+    2.820281294877899,
+    0.7722565335307584
+   ],
+   "invalid_rate": [
+    0.0004166666666666667,
+    0.0007216878364870322
+   ],
+   "beats_seed_rate": [
+    0.4215196078431373,
+    0.20546293062079327
+   ],
+   "unique_behaviours": [
+    359.0,
+    134.10070842467613
+   ],
+   "usd": [
+    0.5244216333333335,
+    0.029577220206830714
+   ],
+   "usd_per_proposal": [
+    0.0006555270416666669,
+    3.697152525853838e-05
+   ],
+   "mean_output_tokens": [
+    1050.21,
+    30.728922374735173
+   ],
+   "proposals": [
+    800.0,
+    0.0
+   ]
+  },
+  "Haiku-low sample | b300": {
+   "n_runs": 3,
+   "best_train_excess": [
+    2.873129725919746,
+    0.085976349708776
+   ],
+   "selected_valid_excess": [
+    2.9353472490821537,
+    0.12455759690147461
+   ],
+   "invalid_rate": [
+    0.0011111111111111111,
+    0.0019245008972987529
+   ],
+   "beats_seed_rate": [
+    0.10124489037532515,
+    0.03283298472599012
+   ],
+   "unique_behaviours": [
+    89.66666666666667,
+    3.7859388972001824
+   ],
+   "usd": [
+    0.19732166666666676,
+    0.003646496035008618
+   ],
+   "usd_per_proposal": [
+    0.0006577388888888892,
+    1.2154986783362041e-05
+   ],
+   "mean_output_tokens": [
+    1213.0777777777778,
+    24.309973566723897
+   ],
+   "proposals": [
+    300.0,
+    0.0
+   ]
+  },
+  "Haiku-low sample | b800": {
+   "n_runs": 3,
+   "best_train_excess": [
+    2.7099482174741607,
+    0.10347870171947256
+   ],
+   "selected_valid_excess": [
+    2.7868335959739228,
+    0.14981141449928065
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.10041666666666667,
+    0.012140668570277891
+   ],
+   "unique_behaviours": [
+    185.66666666666666,
+    5.033222956847167
+   ],
+   "usd": [
+    0.5187521666666667,
+    0.004232855104221518
+   ],
+   "usd_per_proposal": [
+    0.0006484402083333334,
+    5.291068880276882e-06
+   ],
+   "mean_output_tokens": [
+    1194.4804166666665,
+    10.582137760553614
+   ],
+   "proposals": [
+    800.0,
+    0.0
+   ]
+  },
+  "Opus-high evolve | b60": {
+   "n_runs": 1,
+   "best_train_excess": [
+    2.275762512424908,
+    0.0
+   ],
+   "selected_valid_excess": [
+    1.7209062990149007,
+    0.0
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.72,
+    0.0
+   ],
+   "unique_behaviours": [
+    12.0,
+    0.0
+   ],
+   "usd": [
+    1.0574759999999999,
+    0.0
+   ],
+   "usd_per_proposal": [
+    0.042299039999999996,
+    0.0
+   ],
+   "mean_output_tokens": [
+    1902.56,
+    0.0
+   ],
+   "proposals": [
+    25.0,
+    0.0
+   ]
+  },
+  "Opus-low evolve | b120": {
+   "n_runs": 2,
+   "best_train_excess": [
+    4.75838098358198,
+    0.0
+   ],
+   "selected_valid_excess": [
+    4.327677081070801,
+    0.00016991326148981263
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.0,
+    0.0
+   ],
+   "unique_behaviours": [
+    16.0,
+    4.242640687119285
+   ],
+   "usd": [
+    1.2188059999999998,
+    0.015270678046504331
+   ],
+   "usd_per_proposal": [
+    0.010156716666666666,
+    0.00012725565038753642
+   ],
+   "mean_output_tokens": [
+    341.4083333333333,
+    0.28284271247464315
+   ],
+   "proposals": [
+    120.0,
+    0.0
+   ]
+  },
+  "Opus-low sample | b120": {
+   "n_runs": 1,
+   "best_train_excess": [
+    4.75838098358198,
+    0.0
+   ],
+   "selected_valid_excess": [
+    4.229637570907028,
+    0.0
+   ],
+   "invalid_rate": [
+    0.0,
+    0.0
+   ],
+   "beats_seed_rate": [
+    0.0,
+    0.0
+   ],
+   "unique_behaviours": [
+    35.0,
+    0.0
+   ],
+   "usd": [
+    1.1112799999999992,
+    0.0
+   ],
+   "usd_per_proposal": [
+    0.00926066666666666,
+    0.0
+   ],
+   "mean_output_tokens": [
+    360.6333333333333,
+    0.0
+   ],
+   "proposals": [
+    120.0,
+    0.0
+   ]
+  }
+ },
+ "disagreement": {
+  "Haiku-low evolve": {
+   "n": 3299,
+   "median_disagree": 0.034,
+   "frac_identical": 0.18763261594422553,
+   "frac_gt_1pct": 0.6838435889663534,
+   "frac_beat_bf": 0.492270384965141
+  },
+  "Haiku-low sample": {
+   "n": 3299,
+   "median_disagree": 0.008,
+   "frac_identical": 0.45043952712943314,
+   "frac_gt_1pct": 0.49408911791451954,
+   "frac_beat_bf": 0.10063655653228251
+  },
+  "Opus-low evolve": {
+   "n": 240,
+   "median_disagree": 0.004,
+   "frac_identical": 0.2625,
+   "frac_gt_1pct": 0.18333333333333332,
+   "frac_beat_bf": 0.0
+  },
+  "Haiku-high evolve": {
+   "n": 150,
+   "median_disagree": 0.0,
+   "frac_identical": 0.5933333333333334,
+   "frac_gt_1pct": 0.25333333333333335,
+   "frac_beat_bf": 0.03333333333333333
+  },
+  "Opus-low sample": {
+   "n": 120,
+   "median_disagree": 0.015,
+   "frac_identical": 0.325,
+   "frac_gt_1pct": 0.5583333333333333,
+   "frac_beat_bf": 0.0
+  },
+  "Opus-high evolve": {
+   "n": 25,
+   "median_disagree": 0.792,
+   "frac_identical": 0.08,
+   "frac_gt_1pct": 0.88,
+   "frac_beat_bf": 0.72
+  }
+ },
+ "evolve_vs_sample": {
+  "best_at_100": {
+   "evolve": [
+    4.5605735979850675,
+    4.012844054381064,
+    2.1805891732533143,
+    4.75838098358198,
+    4.75838098358198,
+    4.261133681783912
+   ],
+   "sample": [
+    3.7624527876988423,
+    3.318090706159024,
+    3.516994611206183,
+    3.7624527876988423,
+    2.7759659037450115,
+    2.82571472991208
+   ],
+   "mannwhitney_p": 0.06461008912954472,
+   "levene_p": 0.48086263236020294
+  },
+  "best_at_300": {
+   "evolve": [
+    4.06247184594434,
+    3.366955447100756,
+    1.9839079420893249,
+    4.75838098358198,
+    4.659492108274863,
+    2.232076534888379
+   ],
+   "sample": [
+    2.823979798452138,
+    2.823004313605685,
+    2.9724050657014147,
+    3.216095071743401,
+    2.7759659037450115,
+    2.82571472991208
+   ],
+   "mannwhitney_p": 0.3939393939393939,
+   "levene_p": 0.00430247130456056
+  },
+  "best_at_800": {
+   "evolve": [
+    3.763791376356674,
+    2.5808985694371707,
+    2.081182920540294
+   ],
+   "sample": [
+    2.6264441170454886,
+    2.6776858054649133,
+    2.82571472991208
+   ],
+   "mannwhitney_p": 0.7,
+   "levene_p": 0.2257305864458099
+  },
+  "evolve_first_below_3pct": [
+   null,
+   null,
+   9,
+   null,
+   716,
+   225
+  ],
+  "evolve_selected_valid_mean_sd": [
+   2.8773905402551985,
+   0.6473847989879504
+  ],
+  "sample_first_below_3pct": [
+   199,
+   213,
+   272,
+   339,
+   3,
+   68
+  ],
+  "sample_selected_valid_mean_sd": [
+   2.8610904225280382,
+   0.14764861493398346
+  ]
+ },
+ "test": {
+  "first_fit": {
+   "weibull_5k": 4.306712949023714,
+   "weibull_10k": 4.3589347904835245,
+   "weibull_200": 6.005477366091945,
+   "uniform_500": 5.667712026151596,
+   "weibull_c150": 2.7770385175935015,
+   "triplet_501": 11.197604790419163
+  },
+  "best_fit": {
+   "weibull_5k": 3.9794316556558647,
+   "weibull_10k": 4.052892069072783,
+   "weibull_200": 5.640347339566336,
+   "uniform_500": 5.22180548065321,
+   "weibull_c150": 2.7024116519218597,
+   "triplet_501": 11.19760479041916
+  },
+  "funsearch_or": {
+   "weibull_5k": 0.6946443836205111,
+   "weibull_10k": 0.3391690399193075,
+   "weibull_200": 13.939302063052079,
+   "uniform_500": 12.621044749095079,
+   "weibull_c150": 3.903528359546482,
+   "triplet_501": 23.05389221556886
+  },
+  "best_fit_decreasing(offline)": {
+   "weibull_5k": 0.35740309250229935,
+   "weibull_10k": 0.3390663314976708,
+   "weibull_200": 0.8029080949397596,
+   "uniform_500": 1.3442770061048208,
+   "weibull_c150": 0.5257822680363915,
+   "triplet_501": 13.7125748502994
+  },
+  "gap_band(distilled)": {
+   "weibull_5k": 1.4091408653591466,
+   "weibull_10k": 1.273769921732052,
+   "weibull_200": 6.20170630215673,
+   "uniform_500": 10.385783416705678,
+   "weibull_c150": 4.055581496884651,
+   "triplet_501": 10.29940119760479
+  },
+  "Haiku-high evolve b150 (n=1)": {
+   "weibull_5k": 3.7613476962980363,
+   "weibull_10k": 3.77166948684008,
+   "weibull_200": 5.641215257768225,
+   "uniform_500": 4.873708666983485,
+   "weibull_c150": 2.7024116519218597,
+   "triplet_501": 11.257485029940119
+  },
+  "Haiku-low evolve b300 (n=3)": {
+   "weibull_5k": 2.4412169264278187,
+   "weibull_10k": 2.340763843066331,
+   "weibull_200": 5.038367220326403,
+   "uniform_500": 3.780297302498211,
+   "weibull_c150": 2.303082579263701,
+   "triplet_501": 9.540918163672655
+  },
+  "Haiku-low evolve b800 (n=3)": {
+   "weibull_5k": 1.908712290848958,
+   "weibull_10k": 1.6680734723771244,
+   "weibull_200": 5.901248045282915,
+   "uniform_500": 4.378333558340093,
+   "weibull_c150": 2.2031044009623812,
+   "triplet_501": 9.261477045908183
+  },
+  "Haiku-low sample b300 (n=3)": {
+   "weibull_5k": 1.935257950496423,
+   "weibull_10k": 1.8142157018033371,
+   "weibull_200": 6.1852245055751425,
+   "uniform_500": 4.609500979769762,
+   "weibull_c150": 2.603372229206136,
+   "triplet_501": 8.003992015968064
+  },
+  "Haiku-low sample b800 (n=3)": {
+   "weibull_5k": 2.266241494193768,
+   "weibull_10k": 2.109210835730995,
+   "weibull_200": 4.891447001452733,
+   "uniform_500": 4.196297344285898,
+   "weibull_c150": 2.5284658621649374,
+   "triplet_501": 6.546906187624749
+  },
+  "Opus-high evolve b60 (n=1)": {
+   "weibull_5k": 0.833394822013237,
+   "weibull_10k": 0.6286279809422708,
+   "weibull_200": 7.79456907628191,
+   "uniform_500": 7.406746311787688,
+   "weibull_c150": 2.777612303017419,
+   "triplet_501": 9.281437125748504
+  },
+  "Opus-low evolve b120 (n=2)": {
+   "weibull_5k": 4.063747501983553,
+   "weibull_10k": 4.081843731795847,
+   "weibull_200": 5.6704678214940465,
+   "uniform_500": 5.322056736934617,
+   "weibull_c150": 2.7015604432054827,
+   "triplet_501": 11.19760479041916
+  },
+  "Opus-low sample b120 (n=1)": {
+   "weibull_5k": 3.612266130143425,
+   "weibull_10k": 3.763400240168451,
+   "weibull_200": 5.637990448489933,
+   "uniform_500": 4.82440973164894,
+   "weibull_c150": 2.327013825314686,
+   "triplet_501": 11.19760479041916
+  }
+ },
+ "total_usd": 9.0970385
+}

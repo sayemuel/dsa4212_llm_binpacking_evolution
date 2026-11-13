@@ -1,0 +1,49 @@
+{
+  "run_id": "evolve_claude-opus-5-5-high_b60_s0",
+  "wall_seconds": 267.10256481170654,
+  "total_usd": 1.0574759999999999,
+  "total_input_tokens": 26549,
+  "total_output_tokens": 47564,
+  "proposals_completed": 25,
+  "stopped_early": "spend cap $1.0 reached",
+  "seed_train_excess": 4.75838098358198,
+  "best_train_excess": 2.275762512424908,
+  "selected": {
+    "pid": 23,
+    "train_excess": 2.3263657888346363,
+    "valid_excess": 1.7209062990149007,
+    "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins, dtype=float)\n    scale = 100.0 / cap\n    b = bins.astype(float) * scale\n    it = max(float(item) * scale, 1e-6)\n\n    # FunSearch-style base score\n    score = (b - b.max()) ** 2 / it\n    score += b ** 2 / it ** 2\n    score += b ** 2 / it ** 3\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    score[1:] -= score[:-1].copy()\n    score = np.nan_to_num(score, nan=-1e15, posinf=1e15, neginf=-1e15)\n    score = np.clip(score, -1e15, 1e15)\n\n    # Near-perfect fits take precedence (tightest first, earlier bin on ties)\n    r = b - it\n    thr = min(2.0, max(1.2, 0.04 * it))\n    near = (r <= thr) & (b < 100.0 - 1e-9)\n    if np.any(near):\n        n = b.shape[0]\n        out = np.full(b.shape, -1e17, dtype=float)\n        idx = np.arange(n, dtype=float)\n        out[near] = 1e17 - r[near] * 1e6 - idx[near] * 1e-3\n        return out\n    return score\n"
+  },
+  "finalists": [
+    {
+      "pid": 23,
+      "train_excess": 2.3263657888346363,
+      "valid_excess": 1.7209062990149007,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins, dtype=float)\n    scale = 100.0 / cap\n    b = bins.astype(float) * scale\n    it = max(float(item) * scale, 1e-6)\n\n    # FunSearch-style base score\n    score = (b - b.max()) ** 2 / it\n    score += b ** 2 / it ** 2\n    score += b ** 2 / it ** 3\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    score[1:] -= score[:-1].copy()\n    score = np.nan_to_num(score, nan=-1e15, posinf=1e15, neginf=-1e15)\n    score = np.clip(score, -1e15, 1e15)\n\n    # Near-perfect fits take precedence (tightest first, earlier bin on ties)\n    r = b - it\n    thr = min(2.0, max(1.2, 0.04 * it))\n    near = (r <= thr) & (b < 100.0 - 1e-9)\n    if np.any(near):\n        n = b.shape[0]\n        out = np.full(b.shape, -1e17, dtype=float)\n        idx = np.arange(n, dtype=float)\n        out[near] = 1e17 - r[near] * 1e6 - idx[near] * 1e-3\n        return out\n    return score\n"
+    },
+    {
+      "pid": 8,
+      "train_excess": 2.2818253610554478,
+      "valid_excess": 1.9174664867418525,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins, dtype=float)\n    scale = 100.0 / cap\n    b = bins.astype(float) * scale\n    it = max(float(item) * scale, 1e-6)\n\n    # FunSearch-style base score\n    score = (b - b.max()) ** 2 / it\n    score += b ** 2 / it ** 2\n    score += b ** 2 / it ** 3\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    score[1:] -= score[:-1].copy()\n    score = np.nan_to_num(score, nan=-1e15, posinf=1e15, neginf=-1e15)\n    score = np.clip(score, -1e15, 1e15)\n\n    # Near-perfect fits take precedence (tightest first)\n    r = b - it\n    near = (r <= 1.0) & (b < 100.0 - 1e-9)\n    if np.any(near):\n        out = np.full(b.shape, -1e17, dtype=float)\n        out[near] = 1e17 - r[near]\n        return out\n    return score\n"
+    },
+    {
+      "pid": 25,
+      "train_excess": 2.275762512424908,
+      "valid_excess": 2.3615508468222997,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins)\n    s = 100.0 / cap\n    b = bins * s\n    it = max(item * s, 1e-9)\n    score = (b - 100.0) ** 2 / it + b ** 2 / (it ** 2)\n    score = score + b ** 2 / (it ** 3)\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    out = score.copy()\n    out[1:] = score[1:] - score[:-1]\n    out = np.nan_to_num(out, nan=-1e18, posinf=1e18, neginf=-1e18)\n\n    # Near-perfect fit override: take the tightest bin leaving (almost) no slack.\n    r = b - it\n    tol = 1.2\n    near = (r <= tol) & (r >= -1e-9)\n    if np.any(near):\n        top = np.max(np.abs(out)) if out.size else 0.0\n        big = min(top * 2.0 + 1e6, 1e17)\n        out = np.where(near, big - r, np.minimum(out, big * 0.5))\n    return out\n"
+    },
+    {
+      "pid": 15,
+      "train_excess": 2.3298688907452516,
+      "valid_excess": 2.361795895835385,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    if cap <= 0 or bins.size == 0:\n        return np.zeros_like(bins)\n    s = 100.0 / cap\n    b = bins * s\n    it = max(item * s, 1e-9)\n    score = (b - 100.0) ** 2 / it + b ** 2 / (it ** 2)\n    score = score + b ** 2 / (it ** 3)\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    out = score.copy()\n    out[1:] = score[1:] - score[:-1]\n    out = np.nan_to_num(out, nan=-1e18, posinf=1e18, neginf=-1e18)\n\n    r = b - it\n    is_new = b >= 100.0 - 1e-9\n\n    tol = 2.0 + 0.03 * it\n    near = (r <= tol) & (r >= -1e-9) & (~is_new)\n    if np.any(near):\n        top = np.max(np.abs(out)) if out.size else 0.0\n        big = min(top * 2.0 + 1e6, 1e17)\n        out = np.where(near, big - r, np.minimum(out, big * 0.5))\n        return out\n\n    # Soft band: moderately tight fits get a bonus scaled to the score spread.\n    spread = (np.max(out) - np.min(out)) if out.size > 1 else 1.0\n    spread = abs(spread) + 1.0\n    band = (r <= 2.0 * tol) & (~is_new)\n    if np.any(band):\n        bonus = np.where(band, spread * 0.5 * (1.0 - (r - tol) / tol), 0.0)\n        out = out + bonus\n\n    eps = 1e-9 * spread\n    out = out - eps * r\n    out = np.nan_to_num(out, nan=-1e18, posinf=1e18, neginf=-1e18)\n    return out\n"
+    },
+    {
+      "pid": 11,
+      "train_excess": 2.2787186019469425,
+      "valid_excess": 2.4107004067108666,
+      "code": "import numpy as np\n\ndef priority(item: float, bins: np.ndarray) -> np.ndarray:\n    bins = np.asarray(bins, dtype=float)\n    cap = float(np.max(bins))\n    if cap <= 0:\n        return np.zeros_like(bins)\n    s = 100.0 / cap\n    b = bins * s\n    it = max(item * s, 1e-9)\n    score = (b - 100.0) ** 2 / it + b ** 2 / (it ** 2)\n    score = score + b ** 2 / (it ** 3)\n    mask = b > it + 1e-9\n    score[mask] = -score[mask]\n    out = score.copy()\n    out[1:] = score[1:] - score[:-1]\n    out = np.nan_to_num(out, nan=-1e18, posinf=1e18, neginf=-1e18)\n\n    r = b - it\n    # Near-perfect fit override: take the tightest bin leaving tiny slack.\n    tol = 2.0\n    near = (r <= tol) & (r >= -1e-9)\n    if np.any(near):\n        top = np.max(np.abs(out)) if out.size else 0.0\n        big = min(top * 2.0 + 1e6, 1e17)\n        out = np.where(near, big - r, np.minimum(out, big * 0.5))\n        return out\n\n    # Mild tie-break toward fuller bins (avoid disturbing main ordering much).\n    spread = np.max(out) - np.min(out) if out.size > 1 else 1.0\n    eps = 1e-9 * (abs(spread) + 1.0)\n    out = out - eps * r\n    return out\n"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+ "best fit": {
+  "bins": 10477,
+  "frac_exactly_full": 0.31850720626133433,
+  "frac_leftover_in_band": 0.41166364417295026,
+  "mean_leftover": 3.843943877064045,
+  "frac_leftover_1_to_3": 0.26963825522573254
+ },
+ "Haiku evolve (s2)": {
+  "bins": 10241,
+  "frac_exactly_full": 0.37896689776389025,
+  "frac_leftover_in_band": 0.10926667317644762,
+  "mean_leftover": 1.6280636656576506,
+  "frac_leftover_1_to_3": 0.5098134947759008
+ },
+ "distilled band": {
+  "bins": 10218,
+  "frac_exactly_full": 0.40614601683303975,
+  "frac_leftover_in_band": 0.007339988256018791,
+  "mean_leftover": 1.406635349383441,
+  "frac_leftover_1_to_3": 0.580837737326287
+ },
+ "FunSearch": {
+  "bins": 10146,
+  "frac_exactly_full": 0.9784151389710231,
+  "frac_leftover_in_band": 0.012812931204415533,
+  "mean_leftover": 0.7069781194559432,
+  "frac_leftover_1_to_3": 0.00019712201852946975
+ },
+ "weibull_items_below_band_top": 0.38636,
+ "uniform_items_below_band_top": 0.4068
+}
